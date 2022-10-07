@@ -1,8 +1,8 @@
 file=Shell_Userlist.csv 
-#On install sudo
+#On installe sudo
 apt -y install sudo
 
-#On créé un groupe 
+#On créé un groupe ftp 
 addgroup ftpgroup
 
 #boucle while qui va supprimer la virgule avec la commande IFS
@@ -15,10 +15,12 @@ if [[ $col1 = [0-9]* ]]; then
 username=$col2$col3 
 echo $username | sed 's/ //g' 
 
+#Si col5 = admin alors on créé l'user avec son home et son ID et l'on ajoute cet user dans le groupe sudo
 if [[ ${col5%?} = "Admin" ]]; then 
 useradd -m -u $col1 $username
 sudo adduser $username sudo
 
+#Sinon on créé l'user avec son home et son id et on le met dans le gorupe ftp
 else  
 useradd -m -u $col1 $username
 sudo addgroup $username ftpgroup
